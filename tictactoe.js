@@ -10,7 +10,9 @@ module.exports = {
     aliases: ['ttt'],
     callback: (message, args) => {
         const author = message.author.id
+        const authorName = message.author.username
         const member = message.mentions.members.first()
+        const memberName = member.user.username
         if (!member) {
             return message.channel.send('Incorrect Syntax! Please mention a user!')
         }
@@ -41,7 +43,7 @@ module.exports = {
         let turn
         const Embed = new Discord.MessageEmbed()
             .setTitle('Tic Tac Toe')
-            .setDescription(`${a1}${a2}${a3}\n${b1}${b2}${b3}\n${c1}${c2}${c3}`)
+            .setDescription(`🎮 **${authorName}** VS ${memberName} 🎮\n\n🟦🟦🟦🟦🟦\n🟦${a1}${a2}${a3}🟦\n🟦${b1}${b2}${b3}🟦\n🟦${c1}${c2}${c3}🟦\n🟦🟦🟦🟦🟦`)
             .setFooter('You have 10 seconds to reply with your next move!\nYou may type "cancel" at any time to stop the game.\n(Upper left, Up, Upper Right, Left, Middle, Right, Bottom Left, Bottom, Bottom Right)')
             .setColor(3426654)
         message.channel.send(`<@${author}>`, Embed).then(async message => {
@@ -50,12 +52,10 @@ module.exports = {
                     turnName = author
                     xCircle = '❌'
                     winner = `<@${author}>`
-                    turn = member.id
                 } else if (i % 2 > 0) {
                     turnName = member.id
                     xCircle = '🔴'
                     winner = `<@${member.id}>`
-                    turn = author
                 }
                 const filter = m => m.author.id === turnName
                 try {
@@ -165,12 +165,21 @@ module.exports = {
                     midDuel.delete(member.id)
                     break
                 }
+                if (i % 2 == 0) {
                 const updatedEmbed = new Discord.MessageEmbed()
                     .setTitle('Tic Tac Toe')
-                    .setDescription(`${a1}${a2}${a3}\n${b1}${b2}${b3}\n${c1}${c2}${c3}`)
+                    .setDescription(`🎮 ${authorName} VS **${memberName}** 🎮\n\n🟦🟦🟦🟦🟦\n🟦${a1}${a2}${a3}🟦\n🟦${b1}${b2}${b3}🟦\n🟦${c1}${c2}${c3}🟦\n🟦🟦🟦🟦🟦`)
                     .setFooter('You have 10 seconds to reply with your next move!\nYou may type "cancel" at any time to stop the game.\n(Upper left, Up, Upper Right, Left, Middle, Right, Bottom Left, Bottom, Bottom Right)')
                     .setColor(3426654)
-                message.edit(`<@${turn}>`, updatedEmbed)
+                message.edit(updatedEmbed)
+                } else if (i % 2 > 0) {
+                    const updatedEmbed = new Discord.MessageEmbed()
+                    .setTitle('Tic Tac Toe')
+                    .setDescription(`🎮 **${authorName}** VS ${memberName} 🎮\n\n🟦🟦🟦🟦🟦\n🟦${a1}${a2}${a3}🟦\n🟦${b1}${b2}${b3}🟦\n🟦${c1}${c2}${c3}🟦\n🟦🟦🟦🟦🟦`)
+                    .setFooter('You have 10 seconds to reply with your next move!\nYou may type "cancel" at any time to stop the game.\n(Upper left, Up, Upper Right, Left, Middle, Right, Bottom Left, Bottom, Bottom Right)')
+                    .setColor(3426654)
+                message.edit(updatedEmbed)
+                }
                 if (a1 == '❌' && b1 == '❌' && c1 == '❌' || a1 == '🔴' && b1 == '🔴' && c1 == '🔴') {
                     message.channel.send(`${winner} wins!`)
                     midDuel.delete(author)
