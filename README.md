@@ -2,7 +2,7 @@
 Fun Tic Tac Toe game through discord.js!
 
 # Screenshots
-https://imgur.com/a/k8IqTy5
+https://imgur.com/a/s9zO2pU
 
 # Dependencies
 * discord.js (npm i discord.js)
